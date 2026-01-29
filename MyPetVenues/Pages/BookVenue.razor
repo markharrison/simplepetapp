@@ -1,0 +1,244 @@
+﻿@page "/booking"
+@inject IVenueService VenueService
+@inject IBookingService BookingService
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
+<div class="booking-page">
+    <h1>Book a Venue</h1>
+
+    <div class="wizard">
+        <div class="wizard-steps">
+            <div class="step @(currentStep >= 1 ? "active" : "") @(currentStep > 1 ? "completed" : "")">
+                <span class="step-number">1</span>
+                <span class="step-label">Select Venue</span>
+            </div>
+            <div class="step @(currentStep >= 2 ? "active" : "") @(currentStep > 2 ? "completed" : "")">
+                <span class="step-number">2</span>
+                <span class="step-label">Date & Time</span>
+            </div>
+            <div class="step @(currentStep >= 3 ? "active" : "") @(currentStep > 3 ? "completed" : "")">
+                <span class="step-number">3</span>
+                <span class="step-label">Details</span>
+            </div>
+            <div class="step @(currentStep >= 4 ? "active" : "") @(currentStep > 4 ? "completed" : "")">
+                <span class="step-number">4</span>
+                <span class="step-label">Confirm</span>
+            </div>
+        </div>
+
+        <div class="wizard-content">
+            @if (currentStep == 1)
+            {
+                <div class="step-content">
+                    <h2>Select a Venue</h2>
+                    @if (venues == null)
+                    {
+                        <p>Loading venues...</p>
+                    }
+                    else
+                    {
+                        <div class="venues-grid">
+                            @foreach (var venue in venues)
+                            {
+                                <div class="venue-option @(selectedVenue?.Id == venue.Id ? "selected" : "")" 
+                                     @onclick="() => selectedVenue = venue">
+                                    <img src="@venue.ImageUrl" alt="@venue.Name" class="venue-thumb" />
+                                    <div class="venue-info">
+                                        <h3>@venue.Name</h3>
+                                        <p>@venue.Address, @venue.City</p>
+                                        <StarRating Rating="@venue.Rating" Size="small" />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else if (currentStep == 2)
+            {
+                <div class="step-content">
+                    <h2>Select Date & Time</h2>
+                    <div class="date-time-form">
+                        <div class="form-group">
+                            <label>Booking Date</label>
+                            <input type="date" @bind="bookingDate" class="form-input" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="form-group">
+                            <label>Time Slot</label>
+                            <select @bind="timeSlot" class="form-input">
+                                <option value="">Select a time</option>
+                                <option value="9:00 AM - 11:00 AM">9:00 AM - 11:00 AM</option>
+                                <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
+                                <option value="1:00 PM - 3:00 PM">1:00 PM - 3:00 PM</option>
+                                <option value="3:00 PM - 5:00 PM">3:00 PM - 5:00 PM</option>
+                                <option value="5:00 PM - 7:00 PM">5:00 PM - 7:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (currentStep == 3)
+            {
+                <div class="step-content">
+                    <h2>Booking Details</h2>
+                    <div class="details-form">
+                        <div class="form-group">
+                            <label>Number of Pets</label>
+                            <input type="number" @bind="numberOfPets" class="form-input" min="1" max="10" />
+                        </div>
+                        <div class="form-group">
+                            <label>Special Notes</label>
+                            <textarea @bind="notes" class="form-input" rows="4" placeholder="Any special requests or information..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (currentStep == 4)
+            {
+                <div class="step-content">
+                    <h2>Confirm Your Booking</h2>
+                    <div class="confirmation-details">
+                        <div class="detail-row">
+                            <strong>Venue:</strong>
+                            <span>@selectedVenue?.Name</span>
+                        </div>
+                        <div class="detail-row">
+                            <strong>Location:</strong>
+                            <span>@selectedVenue?.Address, @selectedVenue?.City</span>
+                        </div>
+                        <div class="detail-row">
+                            <strong>Date:</strong>
+                            <span>@bookingDate.ToString("MMMM dd, yyyy")</span>
+                        </div>
+                        <div class="detail-row">
+                            <strong>Time:</strong>
+                            <span>@timeSlot</span>
+                        </div>
+                        <div class="detail-row">
+                            <strong>Pets:</strong>
+                            <span>@numberOfPets</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(notes))
+                        {
+                            <div class="detail-row">
+                                <strong>Notes:</strong>
+                                <span>@notes</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else if (currentStep == 5)
+            {
+                <div class="success-state">
+                    <span class="success-icon">âœ…</span>
+                    <h2>Booking Confirmed!</h2>
+                    <p>Your booking has been successfully created.</p>
+                    <div class="success-actions">
+                        <button class="btn btn-primary" @onclick='() => Navigation.NavigateTo("/profile")'>
+                            View My Bookings
+                        </button>
+                        <button class="btn btn-secondary" @onclick='() => Navigation.NavigateTo("/venues")'>
+                            Browse More Venues
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (currentStep < 5)
+        {
+            <div class="wizard-actions">
+                @if (currentStep > 1)
+                {
+                    <button class="btn btn-secondary" @onclick="PreviousStep">Back</button>
+                }
+                @if (currentStep < 4)
+                {
+                    <button class="btn btn-primary" @onclick="NextStep" disabled="@(!CanProceed())">
+                        Next
+                    </button>
+                }
+                else if (currentStep == 4)
+                {
+                    <button class="btn btn-primary" @onclick="ConfirmBooking">
+                        Confirm Booking
+                    </button>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Venue>? venues;
+    private Venue? selectedVenue;
+    private DateTime bookingDate = DateTime.Today.AddDays(1);
+    private string timeSlot = string.Empty;
+    private int numberOfPets = 1;
+    private string notes = string.Empty;
+    private int currentStep = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        venues = await VenueService.GetVenuesAsync();
+        
+        var uri = new Uri(Navigation.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var venueIdStr = query["venue"];
+        
+        if (int.TryParse(venueIdStr, out var venueId))
+        {
+            selectedVenue = await VenueService.GetVenueByIdAsync(venueId);
+        }
+    }
+
+    private bool CanProceed()
+    {
+        return currentStep switch
+        {
+            1 => selectedVenue != null,
+            2 => bookingDate >= DateTime.Today && !string.IsNullOrEmpty(timeSlot),
+            3 => numberOfPets > 0,
+            _ => true
+        };
+    }
+
+    private void NextStep()
+    {
+        if (CanProceed() && currentStep < 4)
+        {
+            currentStep++;
+        }
+    }
+
+    private void PreviousStep()
+    {
+        if (currentStep > 1)
+        {
+            currentStep--;
+        }
+    }
+
+    private async Task ConfirmBooking()
+    {
+        if (selectedVenue == null) return;
+
+        var user = await UserService.GetCurrentUserAsync();
+        var booking = new Booking
+        {
+            Id = new Random().Next(1000, 9999),
+            UserId = user.Id,
+            VenueId = selectedVenue.Id,
+            BookingDate = bookingDate,
+            TimeSlot = timeSlot,
+            NumberOfPets = numberOfPets,
+            Notes = notes,
+            Status = BookingStatus.Confirmed
+        };
+
+        await BookingService.CreateBookingAsync(booking);
+        currentStep = 5;
+    }
+}
