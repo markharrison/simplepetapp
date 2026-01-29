@@ -1,0 +1,17 @@
+﻿.pet-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius-full);
+    font-size: 1.125rem;
+    transition: all var(--transition-base);
+}
+
+.pet-badge:hover {
+    transform: scale(1.15);
+    border-color: var(--accent-primary);
+}

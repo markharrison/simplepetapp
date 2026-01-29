@@ -1,0 +1,18 @@
+﻿@using MyPetVenues.Models
+
+<span class="pet-badge" title="@Type">@GetEmoji()</span>
+
+@code {
+    [Parameter] public PetType Type { get; set; }
+
+    private string GetEmoji() => Type switch
+    {
+        PetType.Dog => "ðŸ•",
+        PetType.Cat => "ðŸ±",
+        PetType.Bird => "ðŸ¦",
+        PetType.Rabbit => "ðŸ°",
+        PetType.SmallPet => "ðŸ¹",
+        PetType.All => "ðŸ¾",
+        _ => "ðŸ¾"
+    };
+}
