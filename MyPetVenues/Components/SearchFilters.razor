@@ -1,0 +1,81 @@
+﻿@using MyPetVenues.Models
+
+<div class="search-filters">
+    <div class="search-input-group">
+        <span class="search-icon">ðŸ”</span>
+        <input type="text" 
+               class="search-input" 
+               placeholder="Search venues..." 
+               value="@searchTerm"
+               @oninput='e => searchTerm = e.Value?.ToString() ?? ""'
+               @onkeydown="HandleKeyDown" />
+        @if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            <button class="clear-button" @onclick="ClearSearch">âœ•</button>
+        }
+    </div>
+    
+    <select class="filter-select" value="@selectedVenueType" @onchange='e => selectedVenueType = e.Value?.ToString() ?? ""'>
+        <option value="">All Venue Types</option>
+        @foreach (var type in Enum.GetValues<VenueType>())
+        {
+            <option value="@type">@type</option>
+        }
+    </select>
+    
+    <select class="filter-select" value="@selectedPetType" @onchange='e => selectedPetType = e.Value?.ToString() ?? ""'>
+        <option value="">All Pet Types</option>
+        @foreach (var type in Enum.GetValues<PetType>())
+        {
+            <option value="@type">@type</option>
+        }
+    </select>
+    
+    <button class="search-button btn-primary" @onclick="HandleSearch">Search</button>
+</div>
+
+@code {
+    [Parameter] public string? SearchTerm { get; set; }
+    [Parameter] public VenueType? SelectedVenueType { get; set; }
+    [Parameter] public PetType? SelectedPetType { get; set; }
+    [Parameter] public EventCallback<(string?, VenueType?, PetType?)> OnSearch { get; set; }
+
+    private string searchTerm = "";
+    private string selectedVenueType = "";
+    private string selectedPetType = "";
+
+    protected override void OnParametersSet()
+    {
+        searchTerm = SearchTerm ?? "";
+        selectedVenueType = SelectedVenueType?.ToString() ?? "";
+        selectedPetType = SelectedPetType?.ToString() ?? "";
+    }
+
+    private async Task HandleSearch()
+    {
+        VenueType? venueType = string.IsNullOrEmpty(selectedVenueType) ? null : Enum.Parse<VenueType>(selectedVenueType);
+        PetType? petType = string.IsNullOrEmpty(selectedPetType) ? null : Enum.Parse<PetType>(selectedPetType);
+        
+        await OnSearch.InvokeAsync((searchTerm, venueType, petType));
+    }
+
+    private async Task ClearSearch()
+    {
+        searchTerm = "";
+        selectedVenueType = "";
+        selectedPetType = "";
+        await HandleSearch();
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await HandleSearch();
+        }
+        else if (e.Key == "Escape")
+        {
+            await ClearSearch();
+        }
+    }
+}
