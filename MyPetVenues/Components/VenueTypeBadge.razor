@@ -1,0 +1,37 @@
+﻿@using MyPetVenues.Models
+
+<span class="venue-type-badge @GetTypeClass()">
+    @GetEmoji() @Type
+</span>
+
+@code {
+    [Parameter] public VenueType Type { get; set; }
+
+    private string GetTypeClass() => Type switch
+    {
+        VenueType.Park => "type-park",
+        VenueType.Restaurant => "type-restaurant",
+        VenueType.Cafe => "type-cafe",
+        VenueType.Hotel => "type-hotel",
+        VenueType.Store => "type-store",
+        VenueType.Beach => "type-beach",
+        VenueType.DayCare => "type-daycare",
+        VenueType.Grooming => "type-grooming",
+        VenueType.VetClinic => "type-vet",
+        _ => ""
+    };
+
+    private string GetEmoji() => Type switch
+    {
+        VenueType.Park => "ðŸŒ³",
+        VenueType.Restaurant => "ðŸ½ï¸",
+        VenueType.Cafe => "â˜•",
+        VenueType.Hotel => "ðŸ¨",
+        VenueType.Store => "ðŸ›ï¸",
+        VenueType.Beach => "ðŸ–ï¸",
+        VenueType.DayCare => "ðŸŽ¨",
+        VenueType.Grooming => "âœ‚ï¸",
+        VenueType.VetClinic => "âš•ï¸",
+        _ => "ðŸ“"
+    };
+}
