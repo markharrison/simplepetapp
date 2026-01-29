@@ -4,8 +4,8 @@
 A pet-friendly location discovery platform ("Yelp/Meetup for pets") - Blazor WebAssembly app.
 
 ## Progress
-- [ ] Wave 0: Foundation (Project Structure, Models, Global Styles)
-- [ ] Wave 1: Services & Layout (Mock Services, Layout Components, Theme)
+- [x] Wave 0: Foundation (Project Structure, Models, Global Styles) - ✅ Complete
+- [x] Wave 1: Services & Layout (Mock Services, Layout Components, Theme) - ✅ Complete
 - [ ] Wave 2: Components (VenueCard, StarRating, ReviewCard, SearchFilters, Badges)
 - [ ] Wave 3: Pages (Home, Venues, VenueDetail, Profile, Booking)
 - [ ] Wave 4: Integration (Final wiring and testing)

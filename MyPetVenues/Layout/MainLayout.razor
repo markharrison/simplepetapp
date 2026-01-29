@@ -3,10 +3,10 @@
 @inject IThemeService ThemeService
 @inherits LayoutComponentBase
 
-<div class="app-container @(ThemeService.IsDarkMode ? ""dark-mode"" : """")">
+<div class="app-container @(ThemeService.IsDarkMode ? "dark-mode" : "")">
     <Header />
     
-    <main id=""main-content"" class=""main-content"">
+    <main id="main-content" class="main-content">
         @Body
     </main>
     
