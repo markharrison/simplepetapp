@@ -1,0 +1,59 @@
+﻿@using MyPetVenues.Models
+
+<div class="venue-card @(IsFeatured ? "featured" : "")" @onclick="HandleClick">
+    @if (IsFeatured)
+    {
+        <div class="featured-badge">â­ Featured</div>
+    }
+    
+    <div class="venue-image">
+        <img src="@Venue.ImageUrl" alt="@Venue.Name" />
+        <VenueTypeBadge Type="@Venue.Type" />
+    </div>
+    
+    <div class="venue-content">
+        <h3 class="venue-name">@Venue.Name</h3>
+        <p class="venue-location">ðŸ“ @Venue.Address, @Venue.City</p>
+        
+        <div class="venue-rating">
+            <StarRating Rating="@Venue.Rating" ShowValue="true" />
+            <span class="review-count">(@Venue.ReviewCount reviews)</span>
+        </div>
+        
+        <div class="venue-pets">
+            @foreach (var pet in Venue.AllowedPets.Take(4))
+            {
+                <PetBadge Type="@pet" />
+            }
+            @if (Venue.AllowedPets.Count > 4)
+            {
+                <span class="more-pets">+@(Venue.AllowedPets.Count - 4)</span>
+            }
+        </div>
+        
+        @if (Venue.Amenities.Any())
+        {
+            <div class="venue-amenities">
+                @foreach (var amenity in Venue.Amenities.Take(3))
+                {
+                    <AmenityTag Amenity="@amenity" />
+                }
+                @if (Venue.Amenities.Count > 3)
+                {
+                    <span class="more-amenities">+@(Venue.Amenities.Count - 3) more</span>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public Venue Venue { get; set; } = null!;
+    [Parameter] public bool IsFeatured { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    private async Task HandleClick()
+    {
+        await OnClick.InvokeAsync();
+    }
+}
