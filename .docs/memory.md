@@ -30,5 +30,14 @@ The application has been cleaned. Use the orchestrator with .docs/implementation
 
 > Agents update this section when working on tasks
 
-(Waiting for orchestrator to start...)
+✅ **Task 0.1 (agent-foundation)**: Project structure complete
+- Created MyPetVenues directory with all folders (Pages, Components, Models, Services, Layout, wwwroot/css)
+- Created MyPetVenues.csproj with .NET 9.0 Blazor WebAssembly SDK
+- Created Program.cs with WebAssembly host configuration
+- Created App.razor with routing setup
+- Created _Imports.razor with common directives
+- Created wwwroot/index.html with paw favicon and loading state
+- Created Layout/MainLayout.razor placeholder
+- Created wwwroot/css/app.css with base styles
+- Committed: "Wave 0: Project foundation"
 
