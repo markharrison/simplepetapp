@@ -4,7 +4,6 @@
 A pet-friendly location discovery platform ("Yelp/Meetup for pets") - Blazor WebAssembly app.
 
 ## Progress
-- [x] Wave 0.2: Domain Models (Venue, Review, Booking, User, Pet enums)
 - [ ] Wave 0: Foundation (Project Structure, Models, Global Styles)
 - [ ] Wave 1: Services & Layout (Mock Services, Layout Components, Theme)
 - [ ] Wave 2: Components (VenueCard, StarRating, ReviewCard, SearchFilters, Badges)
@@ -31,11 +30,14 @@ The application has been cleaned. Use the orchestrator with .docs/implementation
 
 > Agents update this section when working on tasks
 
-### ✅ Task 0.2 (agent-models): Models complete
-- Created 4 domain model files in MyPetVenues/Models/
-  - Venue.cs (VenueType, PetType enums)
-  - Review.cs
-  - Booking.cs (BookingStatus enum)
-  - User.cs (Pet class)
-- Commit: a1c81e8
+✅ **Task 0.1 (agent-foundation)**: Project structure complete
+- Created MyPetVenues directory with all folders (Pages, Components, Models, Services, Layout, wwwroot/css)
+- Created MyPetVenues.csproj with .NET 9.0 Blazor WebAssembly SDK
+- Created Program.cs with WebAssembly host configuration
+- Created App.razor with routing setup
+- Created _Imports.razor with common directives
+- Created wwwroot/index.html with paw favicon and loading state
+- Created Layout/MainLayout.razor placeholder
+- Created wwwroot/css/app.css with base styles
+- Committed: "Wave 0: Project foundation"
 
