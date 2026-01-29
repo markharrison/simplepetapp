@@ -1,0 +1,33 @@
+﻿.star-rating {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.star {
+    font-size: 1.125rem;
+    transition: transform var(--transition-fast);
+}
+
+.star.filled {
+    color: #fbbf24;
+}
+
+.star.half {
+    color: #fbbf24;
+    opacity: 0.6;
+}
+
+.star.empty {
+    color: var(--text-muted);
+}
+
+.star:hover {
+    transform: scale(1.2);
+}
+
+.rating-value {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-left: var(--space-1);
+}
