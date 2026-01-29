@@ -159,7 +159,7 @@
     {
         if (user != null && user.FavoriteVenueIds.Any())
         {
-            var allVenues = await VenueService.GetVenuesAsync();
+            var allVenues = await VenueService.GetAllVenuesAsync();
             favoriteVenues = allVenues.Where(v => user.FavoriteVenueIds.Contains(v.Id)).ToList();
         }
         else

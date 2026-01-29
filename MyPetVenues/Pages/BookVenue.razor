@@ -182,7 +182,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        venues = await VenueService.GetVenuesAsync();
+        venues = await VenueService.GetAllVenuesAsync();
         
         var uri = new Uri(Navigation.Uri);
         var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
