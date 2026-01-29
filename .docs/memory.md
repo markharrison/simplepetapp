@@ -6,7 +6,7 @@ A pet-friendly location discovery platform ("Yelp/Meetup for pets") - Blazor Web
 ## Progress
 - [x] Wave 0: Foundation (Project Structure, Models, Global Styles) - ✅ Complete
 - [x] Wave 1: Services & Layout (Mock Services, Layout Components, Theme) - ✅ Complete
-- [ ] Wave 2: Components (VenueCard, StarRating, ReviewCard, SearchFilters, Badges)
+- [x] Wave 2: Components (VenueCard, StarRating, ReviewCard, SearchFilters, Badges) - ✅ Complete
 - [ ] Wave 3: Pages (Home, Venues, VenueDetail, Profile, Booking)
 - [ ] Wave 4: Integration (Final wiring and testing)
 
