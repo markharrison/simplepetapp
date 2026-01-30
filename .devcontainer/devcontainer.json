@@ -27,12 +27,11 @@
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "pwsh",
-        "dotnet.defaultSolution": "src/ExpenseManagement/ExpenseManagement.csproj"
       }
     }
   },
 
-  "postCreateCommand": "gh extension install github/gh-copilot --force ",
+  "postCreateCommand": "echo 'y' | gh copilot --version || true",
 
   "forwardPorts": [5000, 5001],
 
