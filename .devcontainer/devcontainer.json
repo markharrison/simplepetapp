@@ -5,7 +5,10 @@
   "features": {
     "ghcr.io/devcontainers/features/azure-cli:1": {},
     "ghcr.io/devcontainers/features/powershell:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
   },
 
   "customizations": {
@@ -29,7 +32,7 @@
     }
   },
 
-  "postCreateCommand": "curl -sSL -o /tmp/sqlcmd.tar.bz2 https://github.com/microsoft/go-sqlcmd/releases/download/v1.8.0/sqlcmd-linux-amd64.tar.bz2 && sudo tar -xjf /tmp/sqlcmd.tar.bz2 -C /usr/local/bin && rm /tmp/sqlcmd.tar.bz2 && cd src/ExpenseManagement && dotnet restore",
+  "postCreateCommand": "gh extension install github/gh-copilot --force ",
 
   "forwardPorts": [5000, 5001],
 
